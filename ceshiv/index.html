@@ -11,6 +11,50 @@
         window.location.replace('./kbgame.html')
       }
     }
+    function getQueryString(name) {
+      const url_string = window.location.href; // window.location.href
+      const url = new URL(url_string);
+      return url.searchParams.get(name);
+    }
+    function setCookie(name, value, daysToLive) {
+    // 对 cookie 值进行编码以转义其中的分号、逗号和空格
+      var cookie = name + "=" + encodeURIComponent(value);
+     
+      if(typeof daysToLive === "number") {
+          /* 设置 max-age 属性 */
+          cookie += "; max-age=" + (daysToLive*24*60*60);
+      }
+      document.cookie = cookie;
+    }
+    function getCookie(name) {
+    // 拆分 cookie 字符串
+      var cookieArr = document.cookie.split(";");
+     
+      // 循环遍历数组元素
+      for(var i = 0; i < cookieArr.length; i++) {
+          var cookiePair = cookieArr[i].split("=");
+         
+          /* 删除 cookie 名称开头的空白并将其与给定字符串进行比较 */
+          if(name == cookiePair[0].trim()) {
+              // 解码cookie值并返回
+              return decodeURIComponent(cookiePair[1]);
+          }
+      }
+      // 如果未找到，则返回null
+      return null;
+    }
+    function loadlogi(){
+      var lgtp = document.getElementById("logintype");
+      var lgto = document.getElementById("loginto");
+      if(getCookie("unm") != null){
+        lgtp.innerHTML = getCookie("unm");
+        lgto.innerHTML = getCookie("pswd");
+      }else{
+        lgtp.innerHTML = "未登录";
+        lgto.innerHTML = "点我登录";
+        lgto.href = "https://coco.codemao.cn/editor/player/174132932?channel=h5";
+      }
+    }
   </script>
   <style>
     @import url(style.css);
@@ -54,12 +98,31 @@
   <br/>
   <br/>
   <br/>
-  <div>
-    <h1 class="h"><a href=".">妈的小站</a></h1>
-    <h3>智能煮茶器的最大品牌。
-      <button class="button button2" onclick="window.location.replace('./whyis')" style="vertical-align:middle"><span>为什么？</span></button>
-      <button class="button button2" onclick="dontcall()" style="vertical-align:middle"><span>不要点我</span></button>
-      <button class="button button2" onclick="window.location.replace('./game')" style="vertical-align:middle"><span>游戏</span></button>
-    </h3>
+  <div class="h">
+    <h1><a href=".">妈的小站</a></h1>
+    &nbsp;&nbsp;&nbsp;
+    <h2 id="demo"></h2>
+    <script>
+      document.getElementById("demo").innerHTML = "";
+      if(getQueryString("from")=="mddl"){
+        document.getElementById("demo").innerHTML = getQueryString("unm");
+        setCookie("unm",getQueryString("unm"),100);
+        alert(getCookie("unm"));
+      }else{
+        if(getCookie("unm") != null){
+          document.getElementById("demo").innerHTML = getCookie("unm");
+          
+        }else{
+          document.getElementById("demo").innerHTML = "未登录";
+          alert("你还没有登录，即将跳转。");
+          window.location.replace("https://coco.codemao.cn/editor/player/174132932?channel=h5");
+        }
+      }
+    </script>
   </div>
+  <h3>智能煮茶器的最大品牌。
+    <button class="button button2" onclick="window.location.replace('./whyis')" style="vertical-align:middle"><span>为什么？</span></button>
+    <button class="button button2" onclick="dontcall()" style="vertical-align:middle"><span>不要点我</span></button>
+    <button class="button button2" onclick="window.location.replace('./game')" style="vertical-align:middle"><span>游戏</span></button>
+  </h3>
 </body>
