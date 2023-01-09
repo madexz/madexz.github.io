@@ -46,7 +46,7 @@
     function loadlogi(){
       var lgtp = document.getElementById("logintype");
       var lgto = document.getElementById("loginto");
-      if(getCookie("unm") != null){
+      if(getCookie("unm") != null && getCookie("unm") != 'ys'){
         lgtp.innerHTML = getCookie("unm");
         lgto.innerHTML = getCookie("pswd");
       }else{
@@ -55,6 +55,14 @@
         lgto.href = "https://coco.codemao.cn/editor/player/174132932?channel=h5";
       }
     }
+    function delCookie(name){
+      var exp = new Date();
+      exp.setTime(exp.getTime() - 1);
+      var cval=getCookie(name);
+      if(cval!=null){
+          document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+    } 
+}
   </script>
   <style>
     @import url(style.css);
@@ -102,6 +110,7 @@
     <h1><a href=".">妈的小站</a></h1>
     &nbsp;&nbsp;&nbsp;
     <h2 id="demo"></h2>
+    <button class="button button2" onclick="delCookie('unm')"><span>退出登录</span></button>
     <script>
       document.getElementById("demo").innerHTML = "";
       if(getQueryString("from")=="mddl"){
