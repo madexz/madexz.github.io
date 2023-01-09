@@ -110,7 +110,7 @@
     <h1><a href=".">妈的小站</a></h1>
     &nbsp;&nbsp;&nbsp;
     <h2 id="demo"></h2>
-    <button class="button button2" onclick="delCookie('unm')"><span>退出登录</span></button>
+    <button class="button button2" onclick="delCookie('unm');location.reload();"><span>退出登录</span></button>
     <script>
       document.getElementById("demo").innerHTML = "";
       if(getQueryString("from")=="mddl"){
